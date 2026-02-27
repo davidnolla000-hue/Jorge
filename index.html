@@ -49,17 +49,15 @@ button {
 
 @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
 
-/* Pollito botón */
 #pollitoBtn {
-    position:absolute; bottom:15%; /* más abajo */
+    position:absolute; bottom:15%;
     font-size:2em; cursor:pointer;
     z-index:5;
 }
 
-/* Bocadillo fijo */
 #pollitoText {
     position:absolute;
-    bottom:20%; /* más abajo que el texto principal */
+    bottom:20%;
     left:50%;
     transform:translateX(-50%);
     font-size:1.2em;
@@ -70,7 +68,6 @@ button {
     white-space:nowrap;
 }
 
-/* Foto sorpresa */
 #fotoSorpresa {
     max-width: 90%; max-height: 60vh;
     border-radius:20px;
@@ -80,7 +77,6 @@ button {
 }
 #fotoSorpresa.show { opacity:1; transform:scale(1.05); }
 
-/* Corazones y pollitos animados */
 .heart, .pollito {
     position:absolute; bottom:-20px; font-size:20px;
 }
@@ -97,7 +93,6 @@ button {
     100%{transform:translateY(-120vh); opacity:0;}
 }
 
-/* Brillos pantalla 4 */
 #screen4::before {
     content:'';
     position:absolute; width:200%; height:200%;
@@ -114,24 +109,26 @@ button {
 <!-- Pantalla 1 -->
 <div id="screen1" class="screen active">
     <h1>Jorge 💚</h1>
-    <p style="opacity:1;">Si estás leyendo esto, alguien quiere recordarte algo muy importante...</p>
+    <p style="opacity:1;">Jorge 💚, este mensaje es solo para ti…</p>
+    <p style="opacity:1;">Respira, relájate y abre los ojos, porque alguien quiere recordarte algo muy importante.</p>
     <button id="btn1">Pulsa aquí</button>
 </div>
 
 <!-- Pantalla 2 -->
 <div id="screen2" class="screen">
-    <p data-text="No necesitas a nadie para ser suficiente."></p>
-    <p data-text="No necesitas encajar para valer."></p>
-    <p data-text="No necesitas demostrar nada para merecer amor."></p>
-    <p data-text="Eres perfecto tal y como eres, con tus virtudes y defectos."></p>
+    <p data-text="No necesitas cambiar nada de ti."></p>
+    <p data-text="No necesitas aprobación de nadie para brillar."></p>
+    <p data-text="Eres increíble con tus virtudes y con tus locuras."></p>
+    <p data-text="Cada paso que das te hace único y valioso."></p>
     <button id="btn2">Siguiente</button>
 </div>
 
 <!-- Pantalla 3 -->
 <div id="screen3" class="screen">
-    <p data-text="Confía en ti y en el proceso."></p>
-    <p data-text="Disfruta cada paso, todo va a ir bien."></p>
-    <p data-text="Recuerda: la vida es un camino que merece ser disfrutado 💚"></p>
+    <p data-text="Confía en ti, confía en el proceso, todo va a salir bien."></p>
+    <p data-text="Disfruta cada momento, incluso los pequeños tropiezos."></p>
+    <p data-text="Tu camino es único y merece ser vivido con alegría y pasión."></p>
+    <p data-text="Cada día que pasa es un día para crecer y sonreír 💚"></p>
     <div id="pollitoText">Atrápame si puedes guarrillo 🐥</div>
     <button id="pollitoBtn">🐥</button>
 </div>
@@ -148,7 +145,6 @@ button {
 let intervalId, pollitoAnim;
 let pollitoX=10, pollitoDir=1;
 
-// Crear corazones
 function crearCorazones(color){
     return setInterval(()=>{
         const c=document.createElement('div');
@@ -160,7 +156,6 @@ function crearCorazones(color){
     },400);
 }
 
-// Crear pollitos para pantalla final
 function crearPollitos(){
     setInterval(()=>{
         const p=document.createElement('div');
@@ -172,7 +167,6 @@ function crearPollitos(){
     },500);
 }
 
-// Escribir texto letra por letra
 function escribirTexto(screenId){
     const pList=document.querySelectorAll('#'+screenId+' p[data-text]');
     pList.forEach((p, idx)=>{
@@ -184,16 +178,14 @@ function escribirTexto(screenId){
     });
 }
 
-// Mover pollito botón rápido
 function moverPollito(){
     const btn = document.getElementById('pollitoBtn');
-    pollitoX += pollitoDir*5; // muy rápido
+    pollitoX += pollitoDir*5;
     if(pollitoX>90) pollitoDir=-1;
     if(pollitoX<0) pollitoDir=1;
     btn.style.left = pollitoX+'%';
 }
 
-// Cambiar pantalla
 function showScreen(current,next){
     document.getElementById(current).classList.remove('active');
     document.getElementById(next).classList.add('active');
@@ -212,12 +204,10 @@ function showScreen(current,next){
     }
 }
 
-// Botones
 document.getElementById('btn1').addEventListener('click', ()=>showScreen('screen1','screen2'));
 document.getElementById('btn2').addEventListener('click', ()=>showScreen('screen2','screen3'));
 document.getElementById('pollitoBtn').addEventListener('click', ()=>showScreen('screen3','screen4'));
 
-// iniciar pantalla 1
 intervalId = crearCorazones('🤍');
 </script>
 
