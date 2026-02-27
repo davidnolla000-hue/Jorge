@@ -8,27 +8,22 @@
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
     width: 100%;
+    height: 100%;
     font-family: 'Arial', sans-serif;
     overflow: hidden;
-}
-
-body {
     background: linear-gradient(-45deg, #0f2027, #203a43, #2c7744, #11998e);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
     color: white;
     text-align: center;
 }
-
 @keyframes gradient {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-/* Pantallas full screen */
 .screen {
     position: fixed;
     top: 0; left: 0;
@@ -40,7 +35,6 @@ body {
     align-items: center;
     padding: 20px;
     box-sizing: border-box;
-    background: transparent;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.5s ease;
@@ -53,7 +47,7 @@ body {
 
 h1 { font-size: 2.5em; margin-bottom: 20px; }
 h2 { font-size: 2em; margin-bottom: 10px; }
-p { font-size: 1.2em; line-height: 1.6em; margin: 5px 0; }
+p { font-size: 1.2em; line-height: 1.6em; margin: 5px 0; opacity: 0; }
 
 button {
     margin-top: 30px;
@@ -65,14 +59,14 @@ button {
     color: #003322;
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
+    animation: pulse 2s infinite;
 }
 
-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px #00ff88;
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
 }
 
-/* Botón pollito con bocadillo */
 #pollitoBtn {
     position: relative;
     background: #fff200;
@@ -93,17 +87,11 @@ button:hover {
     color: #fff200;
     padding: 5px 10px;
     border-radius: 10px;
-    font-size: 0.8em;
+    font-size: 0.9em;
     white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-#pollitoBtn:hover::after {
     opacity: 1;
 }
 
-/* Foto final */
 #fotoSorpresa {
     max-width: 90%;
     max-height: 60vh;
@@ -118,52 +106,54 @@ button:hover {
     transform: scale(1.05);
 }
 
-/* Animaciones */
+/* Animaciones de corazones y pollitos */
 .heart, .pollito {
     position: absolute;
     bottom: -20px;
     font-size: 20px;
-    animation: floatUp 6s linear infinite;
 }
 
-@keyframes floatUp {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-120vh); opacity: 0; }
+.heart {
+    animation: floatRotate 6s linear infinite;
+}
+
+@keyframes floatRotate {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    50% { transform: translateY(-60vh) rotate(180deg); opacity: 0.7; }
+    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
 }
 
 .pollito {
-    bottom: -30px;
-    font-size: 20px;
-    animation: pollitoUp 4s linear infinite;
+    animation: pollitoBounce 4s ease-in-out infinite;
 }
 
-@keyframes pollitoUp {
+@keyframes pollitoBounce {
     0% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(-70vh); opacity: 1; }
     100% { transform: translateY(-120vh); opacity: 0; }
 }
 </style>
 </head>
 <body>
 
-<!-- Pantallas -->
 <div id="screen1" class="screen active">
     <h1>Jorge 💚</h1>
-    <p>Si estás leyendo esto, alguien quiere recordarte algo muy importante...</p>
+    <p style="opacity:1;">Si estás leyendo esto, alguien quiere recordarte algo muy importante...</p>
     <button id="btn1">Pulsa aquí</button>
 </div>
 
 <div id="screen2" class="screen">
-    <p>No necesitas a nadie para ser suficiente.</p>
-    <p>No necesitas encajar para valer.</p>
-    <p>No necesitas demostrar nada para merecer amor.</p>
-    <p>Eres perfecto tal y como eres, con tus virtudes y defectos.</p>
+    <p data-text="No necesitas a nadie para ser suficiente."></p>
+    <p data-text="No necesitas encajar para valer."></p>
+    <p data-text="No necesitas demostrar nada para merecer amor."></p>
+    <p data-text="Eres perfecto tal y como eres, con tus virtudes y defectos."></p>
     <button id="btn2">Siguiente</button>
 </div>
 
 <div id="screen3" class="screen">
-    <p>Confía en ti y en el proceso.</p>
-    <p>Disfruta cada paso, todo va a ir bien.</p>
-    <p>Recuerda: la vida es un camino que merece ser disfrutado 💚</p>
+    <p data-text="Confía en ti y en el proceso."></p>
+    <p data-text="Disfruta cada paso, todo va a ir bien."></p>
+    <p data-text="Recuerda: la vida es un camino que merece ser disfrutado 💚"></p>
     <button id="pollitoBtn">🐥</button>
 </div>
 
@@ -175,58 +165,72 @@ button:hover {
 </div>
 
 <script>
-// Variables de animaciones
+// Variables de intervalos
 let intervalId;
 
-// Función para crear corazones
-function crearCorazones(color) {
-    return setInterval(() => {
+// Función para animar corazones
+function crearCorazones(color){
+    return setInterval(()=>{
         const c = document.createElement('div');
-        c.className = 'heart';
-        c.innerHTML = color;
-        c.style.left = Math.random() * 100 + 'vw';
-        c.style.fontSize = (Math.random() * 20 + 15) + 'px';
+        c.className='heart';
+        c.innerHTML=color;
+        c.style.left=Math.random()*100+'vw';
+        c.style.fontSize=(Math.random()*20+15)+'px';
         document.body.appendChild(c);
-        setTimeout(() => c.remove(), 6000);
-    }, 400);
+        setTimeout(()=>c.remove(),6000);
+    },400);
 }
 
-// Función para pollitos
-function crearPollitos() {
-    setInterval(() => {
+// Función pollitos
+function crearPollitos(){
+    setInterval(()=>{
         const p = document.createElement('div');
-        p.className = 'pollito';
-        p.innerHTML = '🐥';
-        p.style.left = Math.random() * 100 + 'vw';
-        p.style.fontSize = (Math.random() * 20 + 15) + 'px';
+        p.className='pollito';
+        p.innerHTML='🐥';
+        p.style.left=Math.random()*100+'vw';
+        p.style.fontSize=(Math.random()*20+15)+'px';
         document.body.appendChild(p);
-        setTimeout(() => p.remove(), 4000);
-    }, 500);
+        setTimeout(()=>p.remove(),4000);
+    },500);
+}
+
+// Función escribir texto letra por letra
+function escribirTexto(screenId){
+    const pList=document.querySelectorAll('#'+screenId+' p[data-text]');
+    pList.forEach((p, idx)=>{
+        const texto=p.getAttribute('data-text');
+        p.textContent='';
+        for(let i=0;i<texto.length;i++){
+            setTimeout(()=>{ p.textContent += texto[i]; }, i*40 + idx*500);
+        }
+    });
 }
 
 // Cambiar pantalla
-function showScreen(current, next) {
+function showScreen(current,next){
     document.getElementById(current).classList.remove('active');
     document.getElementById(next).classList.add('active');
 
     if(intervalId) clearInterval(intervalId);
 
-    if(next === 'screen1') intervalId = crearCorazones('🤍');
-    if(next === 'screen2' || next === 'screen3') intervalId = crearCorazones('💚');
-    if(next === 'screen4') {
-        const foto = document.getElementById('fotoSorpresa');
-        setTimeout(() => foto.classList.add('show'), 300);
+    if(next==='screen1') intervalId = crearCorazones('🤍');
+    if(next==='screen2' || next==='screen3') intervalId = crearCorazones('💚');
+    if(next==='screen2' || next==='screen3') escribirTexto(next);
+    if(next==='screen4'){
+        const foto=document.getElementById('fotoSorpresa');
+        setTimeout(()=>foto.classList.add('show'),300);
         crearPollitos();
     }
 }
 
 // Botones
-document.getElementById('btn1').addEventListener('click', () => showScreen('screen1','screen2'));
-document.getElementById('btn2').addEventListener('click', () => showScreen('screen2','screen3'));
-document.getElementById('pollitoBtn').addEventListener('click', () => showScreen('screen3','screen4'));
+document.getElementById('btn1').addEventListener('click', ()=>showScreen('screen1','screen2'));
+document.getElementById('btn2').addEventListener('click', ()=>showScreen('screen2','screen3'));
+document.getElementById('pollitoBtn').addEventListener('click', ()=>showScreen('screen3','screen4'));
 
-// Iniciar pantalla 1
+// Inicia pantalla 1
 intervalId = crearCorazones('🤍');
 </script>
+
 </body>
 </html>
