@@ -26,10 +26,7 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-.container {
-    max-width: 90%;
-    position: relative;
-}
+.container { max-width: 90%; position: relative; }
 
 .screen {
     opacity: 0;
@@ -45,15 +42,8 @@ body {
     position: relative;
 }
 
-h1 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-}
-
-p {
-    font-size: 1.2em;
-    line-height: 1.6em;
-}
+h1 { font-size: 2.5em; margin-bottom: 20px; }
+p { font-size: 1.2em; line-height: 1.6em; }
 
 button {
     margin-top: 30px;
@@ -128,7 +118,7 @@ button:hover {
     <div id="screen1" class="screen active">
         <h1>Jorge 💚</h1>
         <p>Si estás leyendo esto, es porque alguien quiere recordarte algo muy importante...</p>
-        <button onclick="nextScreen(1)">Pulsa aquí</button>
+        <button id="btn1" onclick="nextScreen(1)">Pulsa aquí</button>
     </div>
 
     <!-- Pantalla 2 -->
@@ -151,16 +141,26 @@ button:hover {
 </div>
 
 <script>
-// Transición de pantallas
+let heartsStarted = false;
+
+// Cambiar de pantalla
 function nextScreen(current) {
     const screenCurrent = document.getElementById(`screen${current}`);
     const screenNext = document.getElementById(`screen${current + 1}`);
     screenCurrent.classList.remove('active');
     screenNext.classList.add('active');
-    crearCorazones();
+
+    // Si es la primera pantalla, ocultar el botón inicial
+    if(current === 1) document.getElementById('btn1').style.display = 'none';
+
+    // Iniciar corazones solo una vez
+    if(!heartsStarted) {
+        crearCorazones();
+        heartsStarted = true;
+    }
 }
 
-// Corazones verdes
+// Crear corazones verdes
 function crearCorazones() {
     setInterval(() => {
         const heart = document.createElement("div");
