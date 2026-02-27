@@ -5,19 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Jorge 💚</title>
 <style>
-body {
+html, body {
     margin: 0;
+    padding: 0;
+    height: 100%;
     font-family: 'Arial', sans-serif;
-    height: 100vh;
+    overflow: hidden;
+}
+
+body {
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    color: white;
-    overflow: hidden;
     background: linear-gradient(-45deg, #0f2027, #203a43, #2c7744, #11998e);
     background-size: 400% 400%;
-    animation: gradient 12s ease infinite;
+    animation: gradient 15s ease infinite;
+    color: white;
+    text-align: center;
 }
 
 @keyframes gradient {
@@ -26,22 +30,29 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-.container { max-width: 90%; width: 100%; position: relative; }
+.container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
 
 .screen {
     display: none;
-    opacity: 0;
-    transition: opacity 0.7s ease;
     width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.screen.active {
-    display: block;
-    opacity: 1;
-}
+.screen.active { display: flex; }
 
 h1 { font-size: 2.5em; margin-bottom: 20px; }
-p { font-size: 1.2em; line-height: 1.6em; }
+h2 { font-size: 2em; margin-bottom: 10px; }
+p { font-size: 1.2em; line-height: 1.6em; margin: 5px 0; }
 
 button {
     margin-top: 30px;
@@ -57,45 +68,52 @@ button {
 
 button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
 
-/* Botón pollito */
+/* Botón pollito con bocadillo */
 #pollitoBtn {
+    position: relative;
     background: #fff200;
     color: #003322;
     font-size: 2em;
     border-radius: 50%;
-    width: 70px;
-    height: 70px;
-    padding: 0;
-    line-height: 70px;
-    margin-top: 30px;
+    width: 80px;
+    height: 80px;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-#pollitoBtn:hover {
-    transform: scale(1.2) rotate(10deg);
-    box-shadow: 0 0 20px #fff200;
+#pollitoBtn::after {
+    content: "Púlsame aquí guarrillo jeje";
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #003322;
+    color: #fff200;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 0.8em;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
 }
+
+#pollitoBtn:hover::after { opacity: 1; }
 
 /* Foto final */
 #fotoSorpresa {
-    margin-top: 20px;
-    max-width: 90%;
+    max-width: 80%;
     border-radius: 20px;
-    box-shadow: 0 0 20px #00ff88;
-    display: none;
+    box-shadow: 0 0 25px #00ff88;
     opacity: 0;
     transition: opacity 1s ease, transform 1s ease;
 }
 
 #fotoSorpresa.show {
-    display: block;
     opacity: 1;
     transform: scale(1.05);
 }
 
-/* Corazones */
-.heart {
+/* Corazones y pollitos */
+.heart, .pollito {
     position: absolute;
     bottom: -20px;
     font-size: 20px;
@@ -107,9 +125,7 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
     100% { transform: translateY(-120vh); opacity: 0; }
 }
 
-/* Pollitos finales */
 .pollito {
-    position: absolute;
     bottom: -30px;
     font-size: 20px;
     animation: pollitoUp 4s linear infinite;
@@ -124,6 +140,7 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
 <body>
 
 <div class="container">
+
     <!-- Pantalla 1 -->
     <div id="screen1" class="screen active">
         <h1>Jorge 💚</h1>
@@ -145,7 +162,7 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
         <p>Confía en ti y en el proceso.</p>
         <p>Disfruta cada paso, todo va a ir bien.</p>
         <p>Recuerda: la vida es un camino que merece ser disfrutado 💚</p>
-        <button id="pollitoBtn">🐥 Pinchame aquí</button>
+        <button id="pollitoBtn">🐥</button>
     </div>
 
     <!-- Pantalla 4 -->
@@ -155,15 +172,16 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
         <p>Sergi<br>Alberto<br>Nolla</p>
         <img id="fotoSorpresa" src="ca173b24-8c4a-4c5e-af45-8d4495b85242.jpeg" alt="Foto sorpresa">
     </div>
+
 </div>
 
 <script>
-// Corazones verdes y blancos
-function crearCorazones() {
-    setInterval(() => {
+// Función corazones
+function crearCorazones(color) {
+    return setInterval(() => {
         const heart = document.createElement('div');
         heart.classList.add('heart');
-        heart.innerHTML = Math.random() > 0.5 ? '💚' : '🤍';
+        heart.innerHTML = color;
         heart.style.left = Math.random() * 100 + 'vw';
         heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
         document.body.appendChild(heart);
@@ -171,7 +189,7 @@ function crearCorazones() {
     }, 400);
 }
 
-// Pollitos animados para pantalla 4
+// Pollitos pantalla final
 function crearPollitos() {
     setInterval(() => {
         const pollito = document.createElement('div');
@@ -184,33 +202,34 @@ function crearPollitos() {
     }, 500);
 }
 
-// Inicializar corazones
-crearCorazones();
+// Variables para intervalos
+let intervalId;
 
-// Función mostrar pantalla
+// Cambiar de pantalla
 function showScreen(current, next) {
     document.getElementById(current).classList.remove('active');
     document.getElementById(next).classList.add('active');
 
+    // Limpiar intervalos previos
+    if(intervalId) clearInterval(intervalId);
+
+    // Iniciar animaciones según pantalla
+    if(next === 'screen1') intervalId = crearCorazones('🤍');
+    if(next === 'screen2' || next === 'screen3') intervalId = crearCorazones('💚');
     if(next === 'screen4') {
         const foto = document.getElementById('fotoSorpresa');
-        setTimeout(() => {
-            foto.classList.add('show');
-        }, 300);
+        setTimeout(() => foto.classList.add('show'), 300);
         crearPollitos();
     }
 }
 
 // Botones
-document.getElementById('btn1').addEventListener('click', () => {
-    showScreen('screen1', 'screen2');
-});
-document.getElementById('btn2').addEventListener('click', () => {
-    showScreen('screen2', 'screen3');
-});
-document.getElementById('pollitoBtn').addEventListener('click', () => {
-    showScreen('screen3', 'screen4');
-});
+document.getElementById('btn1').addEventListener('click', () => showScreen('screen1','screen2'));
+document.getElementById('btn2').addEventListener('click', () => showScreen('screen2','screen3'));
+document.getElementById('pollitoBtn').addEventListener('click', () => showScreen('screen3','screen4'));
+
+// Iniciar pantalla 1 corazones blancos
+intervalId = crearCorazones('🤍');
 </script>
 
 </body>
