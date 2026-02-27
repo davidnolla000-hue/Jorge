@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Jorge 💚</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+    background: linear-gradient(-45deg, #0f2027, #203a43, #2c7744, #11998e);
+    background-size: 400% 400%;
+    animation: gradient 12s ease infinite;
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    max-width: 90%;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 2s forwards 1s;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1.2em;
+    line-height: 1.6em;
+}
+
+button {
+    margin-top: 30px;
+    padding: 15px 30px;
+    font-size: 1em;
+    border: none;
+    border-radius: 30px;
+    background: #00ff88;
+    color: #003322;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #00ff88;
+}
+
+.hidden {
+    display: none;
+}
+
+.heart {
+    position: absolute;
+    bottom: -20px;
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-120vh);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Jorge 💚</h1>
+    <p>
+        Si estás leyendo esto, es porque alguien quiere recordarte algo muy importante...
+    </p>
+    <button onclick="mostrarMensaje()">Pulsa aquí</button>
+
+    <div id="mensajeFinal" class="hidden">
+        <p>
+        No necesitas a nadie para ser suficiente.  
+        No necesitas encajar para valer.  
+        No necesitas demostrar nada para merecer amor.
+        </p>
+
+        <p>
+        Eres perfecto tal y como eres.  
+        Con tus virtudes.  
+        Con tus defectos.  
+        Con tu forma única de ver el mundo.
+        </p>
+
+        <p>
+        Nunca olvides que el valor que tienes  
+        no depende de quién se quede  
+        sino de quién eres.
+        </p>
+
+        <h2>Y tú, Jorge… eres increíble 💚</h2>
+    </div>
+</div>
+
+<script>
+function mostrarMensaje() {
+    document.getElementById("mensajeFinal").classList.remove("hidden");
+    crearCorazones();
+}
+
+function crearCorazones() {
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "💚";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }, 400);
+}
+</script>
+
+</body>
+</html>
