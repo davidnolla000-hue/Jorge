@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Jorge 💚</title>
-
 <style>
 body {
     margin: 0;
@@ -29,13 +28,21 @@ body {
 
 .container {
     max-width: 90%;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeIn 2s forwards 1s;
+    position: relative;
 }
 
-@keyframes fadeIn {
-    to { opacity: 1; transform: translateY(0); }
+.screen {
+    opacity: 0;
+    transition: opacity 1s ease;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.screen.active {
+    opacity: 1;
+    position: relative;
 }
 
 h1 {
@@ -65,8 +72,6 @@ button:hover {
     box-shadow: 0 0 20px #00ff88;
 }
 
-.hidden { display: none; }
-
 .heart {
     position: absolute;
     bottom: -20px;
@@ -79,7 +84,7 @@ button:hover {
     100% { transform: translateY(-120vh); opacity: 0; }
 }
 
-/* Estilo para botón pollito */
+/* Botón pollito */
 #pollitoBtn {
     background: #fff200;
     color: #003322;
@@ -106,54 +111,56 @@ button:hover {
     box-shadow: 0 0 20px #00ff88;
     display: none;
     opacity: 0;
-    transition: opacity 1s ease;
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+#fotoSorpresa.show {
+    display: block;
+    opacity: 1;
+    transform: scale(1.05);
 }
 </style>
 </head>
-
 <body>
 <div class="container">
-    <h1>Jorge 💚</h1>
-    <p>Si estás leyendo esto, es porque alguien quiere recordarte algo muy importante...</p>
-    <button id="startBtn" onclick="mostrarMensaje()">Pulsa aquí</button>
 
-    <div id="mensajeFinal" class="hidden">
-        <p>No necesitas a nadie para ser suficiente.  
-        No necesitas encajar para valer.  
-        No necesitas demostrar nada para merecer amor.</p>
+    <!-- Pantalla 1 -->
+    <div id="screen1" class="screen active">
+        <h1>Jorge 💚</h1>
+        <p>Si estás leyendo esto, es porque alguien quiere recordarte algo muy importante...</p>
+        <button onclick="nextScreen(1)">Pulsa aquí</button>
+    </div>
 
-        <p>Eres perfecto tal y como eres.  
-        Con tus virtudes.  
-        Con tus defectos.  
-        Con tu forma única de ver el mundo.</p>
+    <!-- Pantalla 2 -->
+    <div id="screen2" class="screen">
+        <p>No necesitas a nadie para ser suficiente.</p>
+        <p>No necesitas encajar para valer.</p>
+        <p>No necesitas demostrar nada para merecer amor.</p>
+        <p>Eres perfecto tal y como eres, con tus virtudes y tus defectos.</p>
+        <button onclick="nextScreen(2)">Siguiente</button>
+    </div>
 
-        <p>Nunca olvides que el valor que tienes  
-        no depende de quién se quede  
-        sino de quién eres.</p>
-
-        <h2>Y tú, Jorge… eres increíble 💚</h2>
-
+    <!-- Pantalla 3 -->
+    <div id="screen3" class="screen">
+        <h2>Te queremos 💚</h2>
+        <p>Tus pajeros: Sergi, Alberto y Nolla</p>
         <button id="pollitoBtn" onclick="mostrarFoto()">🐥</button>
         <img id="fotoSorpresa" src="ca173b24-8c4a-4c5e-af45-8d4495b85242.jpeg" alt="Foto sorpresa">
     </div>
+
 </div>
 
 <script>
-function mostrarMensaje() {
-    document.getElementById("startBtn").style.display = "none"; // desaparece el primer botón
-    const mensaje = document.getElementById("mensajeFinal");
-    mensaje.classList.remove("hidden");
-
-    // animar aparición de cada párrafo
-    const parrafos = mensaje.querySelectorAll('p, h2, button');
-    parrafos.forEach((p, i) => {
-        p.style.opacity = 0;
-        setTimeout(() => { p.style.transition = 'opacity 1s'; p.style.opacity = 1; }, i * 500);
-    });
-
+// Transición de pantallas
+function nextScreen(current) {
+    const screenCurrent = document.getElementById(`screen${current}`);
+    const screenNext = document.getElementById(`screen${current + 1}`);
+    screenCurrent.classList.remove('active');
+    screenNext.classList.add('active');
     crearCorazones();
 }
 
+// Corazones verdes
 function crearCorazones() {
     setInterval(() => {
         const heart = document.createElement("div");
@@ -162,15 +169,14 @@ function crearCorazones() {
         heart.style.left = Math.random() * 100 + "vw";
         heart.style.fontSize = (Math.random() * 20 + 15) + "px";
         document.body.appendChild(heart);
-
         setTimeout(() => { heart.remove(); }, 6000);
     }, 400);
 }
 
+// Mostrar foto final
 function mostrarFoto() {
     const foto = document.getElementById("fotoSorpresa");
-    foto.style.display = "block";
-    setTimeout(() => { foto.style.opacity = 1; }, 100);
+    foto.classList.add("show");
 }
 </script>
 </body>
