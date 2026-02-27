@@ -13,43 +13,39 @@ html, body {
     font-family: 'Arial', sans-serif;
     overflow: hidden;
 }
-
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background: linear-gradient(-45deg, #0f2027, #203a43, #2c7744, #11998e);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
     color: white;
     text-align: center;
 }
-
 @keyframes gradient {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-.container {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-}
-
 .screen {
-    display: none;
+    position: fixed;
+    top: 0; left: 0;
     width: 100vw;
     height: 100vh;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    display: flex;
     padding: 20px;
     box-sizing: border-box;
+    transition: opacity 0.5s;
+    opacity: 0;
+    pointer-events: none;
 }
 
-.screen.active { display: flex; }
+.screen.active {
+    opacity: 1;
+    pointer-events: all;
+}
 
 h1 { font-size: 2.5em; margin-bottom: 20px; }
 h2 { font-size: 2em; margin-bottom: 10px; }
@@ -69,7 +65,6 @@ button {
 
 button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
 
-/* Botón pollito con bocadillo */
 #pollitoBtn {
     position: relative;
     background: #fff200;
@@ -80,12 +75,10 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
     height: 80px;
     cursor: pointer;
 }
-
 #pollitoBtn::after {
     content: "Púlsame aquí guarrillo jeje";
     position: absolute;
-    top: -40px;
-    left: 50%;
+    top: -40px; left: 50%;
     transform: translateX(-50%);
     background: #003322;
     color: #fff200;
@@ -96,10 +89,8 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
     opacity: 0;
     transition: opacity 0.3s;
 }
-
 #pollitoBtn:hover::after { opacity: 1; }
 
-/* Foto final */
 #fotoSorpresa {
     max-width: 90%;
     max-height: 60vh;
@@ -108,20 +99,14 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
     opacity: 0;
     transition: opacity 1s ease, transform 1s ease;
 }
+#fotoSorpresa.show { opacity: 1; transform: scale(1.05); }
 
-#fotoSorpresa.show {
-    opacity: 1;
-    transform: scale(1.05);
-}
-
-/* Corazones y pollitos */
 .heart, .pollito {
     position: absolute;
     bottom: -20px;
     font-size: 20px;
     animation: floatUp 6s linear infinite;
 }
-
 @keyframes floatUp {
     0% { transform: translateY(0); opacity: 1; }
     100% { transform: translateY(-120vh); opacity: 0; }
@@ -132,7 +117,6 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
     font-size: 20px;
     animation: pollitoUp 4s linear infinite;
 }
-
 @keyframes pollitoUp {
     0% { transform: translateY(0); opacity: 1; }
     100% { transform: translateY(-120vh); opacity: 0; }
@@ -141,93 +125,85 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
 </head>
 <body>
 
-<div class="container">
+<!-- Pantallas -->
+<div id="screen1" class="screen active">
+    <h1>Jorge 💚</h1>
+    <p>Si estás leyendo esto, alguien quiere recordarte algo muy importante...</p>
+    <button id="btn1">Pulsa aquí</button>
+</div>
 
-    <!-- Pantalla 1 -->
-    <div id="screen1" class="screen active">
-        <h1>Jorge 💚</h1>
-        <p>Si estás leyendo esto, alguien quiere recordarte algo muy importante...</p>
-        <button id="btn1">Pulsa aquí</button>
-    </div>
+<div id="screen2" class="screen">
+    <p>No necesitas a nadie para ser suficiente.</p>
+    <p>No necesitas encajar para valer.</p>
+    <p>No necesitas demostrar nada para merecer amor.</p>
+    <p>Eres perfecto tal y como eres, con tus virtudes y defectos.</p>
+    <button id="btn2">Siguiente</button>
+</div>
 
-    <!-- Pantalla 2 -->
-    <div id="screen2" class="screen">
-        <p>No necesitas a nadie para ser suficiente.</p>
-        <p>No necesitas encajar para valer.</p>
-        <p>No necesitas demostrar nada para merecer amor.</p>
-        <p>Eres perfecto tal y como eres, con tus virtudes y defectos.</p>
-        <button id="btn2">Siguiente</button>
-    </div>
+<div id="screen3" class="screen">
+    <p>Confía en ti y en el proceso.</p>
+    <p>Disfruta cada paso, todo va a ir bien.</p>
+    <p>Recuerda: la vida es un camino que merece ser disfrutado 💚</p>
+    <button id="pollitoBtn">🐥</button>
+</div>
 
-    <!-- Pantalla 3 -->
-    <div id="screen3" class="screen">
-        <p>Confía en ti y en el proceso.</p>
-        <p>Disfruta cada paso, todo va a ir bien.</p>
-        <p>Recuerda: la vida es un camino que merece ser disfrutado 💚</p>
-        <button id="pollitoBtn">🐥</button>
-    </div>
-
-    <!-- Pantalla 4 -->
-    <div id="screen4" class="screen">
-        <h2>Te queremos 💚</h2>
-        <p>Tus pajeros:</p>
-        <p>Sergi<br>Alberto<br>Nolla</p>
-        <img id="fotoSorpresa" src="ca173b24-8c4a-4c5e-af45-8d4495b85242.jpeg" alt="Foto sorpresa">
-    </div>
-
+<div id="screen4" class="screen">
+    <h2>Te queremos 💚</h2>
+    <p>Tus pajeros:</p>
+    <p>Sergi<br>Alberto<br>Nolla</p>
+    <img id="fotoSorpresa" src="ca173b24-8c4a-4c5e-af45-8d4495b85242.jpeg" alt="Foto sorpresa">
 </div>
 
 <script>
-// Animaciones por pantalla
+// Animaciones
+let intervalId;
+
 function crearCorazones(color) {
     return setInterval(() => {
-        const heart = document.createElement('div');
-        heart.classList.add('heart');
-        heart.innerHTML = color;
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 6000);
+        const c = document.createElement('div');
+        c.className = 'heart';
+        c.innerHTML = color;
+        c.style.left = Math.random()*100+'vw';
+        c.style.fontSize = (Math.random()*20+15)+'px';
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),6000);
     }, 400);
 }
 
 function crearPollitos() {
-    setInterval(() => {
-        const pollito = document.createElement('div');
-        pollito.classList.add('pollito');
-        pollito.innerHTML = '🐥';
-        pollito.style.left = Math.random() * 100 + 'vw';
-        pollito.style.fontSize = (Math.random() * 20 + 15) + 'px';
-        document.body.appendChild(pollito);
-        setTimeout(() => pollito.remove(), 4000);
-    }, 500);
+    setInterval(()=>{
+        const p = document.createElement('div');
+        p.className='pollito';
+        p.innerHTML='🐥';
+        p.style.left=Math.random()*100+'vw';
+        p.style.fontSize=(Math.random()*20+15)+'px';
+        document.body.appendChild(p);
+        setTimeout(()=>p.remove(),4000);
+    },500);
 }
 
-// Variables para intervalos
-let intervalId;
-
 // Cambiar pantalla
-function showScreen(current, next) {
+function showScreen(current,next){
     document.getElementById(current).classList.remove('active');
     document.getElementById(next).classList.add('active');
 
     if(intervalId) clearInterval(intervalId);
 
-    if(next === 'screen1') intervalId = crearCorazones('🤍');
-    if(next === 'screen2' || next === 'screen3') intervalId = crearCorazones('💚');
-    if(next === 'screen4') {
-        const foto = document.getElementById('fotoSorpresa');
-        setTimeout(() => foto.classList.add('show'), 300);
+    if(next==='screen1') intervalId=crearCorazones('🤍');
+    if(next==='screen2'||next==='screen3') intervalId=crearCorazones('💚');
+    if(next==='screen4'){
+        const foto=document.getElementById('fotoSorpresa');
+        setTimeout(()=>foto.classList.add('show'),300);
         crearPollitos();
     }
 }
 
 // Botones
-document.getElementById('btn1').addEventListener('click', () => showScreen('screen1','screen2'));
-document.getElementById('btn2').addEventListener('click', () => showScreen('screen2','screen3'));
-document.getElementById('pollitoBtn').addEventListener('click', () => showScreen('screen3','screen4'));
+document.getElementById('btn1').addEventListener('click', ()=>showScreen('screen1','screen2'));
+document.getElementById('btn2').addEventListener('click', ()=>showScreen('screen2','screen3'));
+document.getElementById('pollitoBtn').addEventListener('click', ()=>showScreen('screen3','screen4'));
 
-// Iniciar pantalla 1
+// Inicia pantalla 1
 intervalId = crearCorazones('🤍');
 </script>
 
