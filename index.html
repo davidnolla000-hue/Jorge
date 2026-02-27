@@ -26,20 +26,22 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-.container { max-width: 90%; position: relative; }
+.container {
+    max-width: 90%;
+    width: 100%;
+    position: relative;
+}
 
 .screen {
+    display: none;
     opacity: 0;
-    transition: opacity 1s ease;
-    position: absolute;
+    transition: opacity 0.7s ease;
     width: 100%;
-    top: 0;
-    left: 0;
 }
 
 .screen.active {
+    display: block;
     opacity: 1;
-    position: relative;
 }
 
 h1 { font-size: 2.5em; margin-bottom: 20px; }
@@ -96,7 +98,7 @@ button:hover {
 
 #fotoSorpresa {
     margin-top: 20px;
-    max-width: 80%;
+    max-width: 90%;
     border-radius: 20px;
     box-shadow: 0 0 20px #00ff88;
     display: none;
@@ -112,13 +114,14 @@ button:hover {
 </style>
 </head>
 <body>
+
 <div class="container">
 
     <!-- Pantalla 1 -->
     <div id="screen1" class="screen active">
         <h1>Jorge 💚</h1>
-        <p>Si estás leyendo esto, es porque alguien quiere recordarte algo muy importante...</p>
-        <button id="btn1" onclick="nextScreen(1)">Pulsa aquí</button>
+        <p>Si estás leyendo esto, alguien quiere recordarte algo muy importante...</p>
+        <button onclick="nextScreen(1)">Pulsa aquí</button>
     </div>
 
     <!-- Pantalla 2 -->
@@ -127,57 +130,55 @@ button:hover {
         <p>No necesitas encajar para valer.</p>
         <p>No necesitas demostrar nada para merecer amor.</p>
         <p>Eres perfecto tal y como eres, con tus virtudes y tus defectos.</p>
-        <button onclick="nextScreen(2)">Siguiente</button>
+        <button id="pollitoBtn" onclick="nextScreen(2)">🐥 Pulsa aquí</button>
     </div>
 
     <!-- Pantalla 3 -->
     <div id="screen3" class="screen">
         <h2>Te queremos 💚</h2>
         <p>Tus pajeros: Sergi, Alberto y Nolla</p>
-        <button id="pollitoBtn" onclick="mostrarFoto()">🐥</button>
         <img id="fotoSorpresa" src="ca173b24-8c4a-4c5e-af45-8d4495b85242.jpeg" alt="Foto sorpresa">
     </div>
 
 </div>
 
 <script>
+// Iniciar corazones solo una vez
 let heartsStarted = false;
 
-// Cambiar de pantalla
 function nextScreen(current) {
-    const screenCurrent = document.getElementById(`screen${current}`);
-    const screenNext = document.getElementById(`screen${current + 1}`);
-    screenCurrent.classList.remove('active');
-    screenNext.classList.add('active');
+    const currentScreen = document.getElementById(`screen${current}`);
+    const nextScreenDiv = document.getElementById(`screen${current + 1}`);
 
-    // Si es la primera pantalla, ocultar el botón inicial
-    if(current === 1) document.getElementById('btn1').style.display = 'none';
+    currentScreen.classList.remove('active');
+    nextScreenDiv.classList.add('active');
 
-    // Iniciar corazones solo una vez
-    if(!heartsStarted) {
+    // iniciar corazones si no se han iniciado
+    if(!heartsStarted){
         crearCorazones();
         heartsStarted = true;
     }
+
+    // Si pasamos a pantalla 3, mostrar la foto
+    if(current + 1 === 3){
+        const foto = document.getElementById('fotoSorpresa');
+        setTimeout(() => { foto.classList.add('show'); }, 300); // pequeño retraso para animación
+    }
 }
 
-// Crear corazones verdes
+// Corazones verdes
 function crearCorazones() {
     setInterval(() => {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = "💚";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '💚';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
         document.body.appendChild(heart);
         setTimeout(() => { heart.remove(); }, 6000);
     }, 400);
 }
-
-// Mostrar foto final
-function mostrarFoto() {
-    const foto = document.getElementById("fotoSorpresa");
-    foto.classList.add("show");
-}
 </script>
+
 </body>
 </html>
