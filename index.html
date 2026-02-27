@@ -13,6 +13,7 @@ html, body {
     font-family: 'Arial', sans-serif;
     overflow: hidden;
 }
+
 body {
     background: linear-gradient(-45deg, #0f2027, #203a43, #2c7744, #11998e);
     background-size: 400% 400%;
@@ -20,12 +21,14 @@ body {
     color: white;
     text-align: center;
 }
+
 @keyframes gradient {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
+/* Pantallas full screen */
 .screen {
     position: fixed;
     top: 0; left: 0;
@@ -37,9 +40,10 @@ body {
     align-items: center;
     padding: 20px;
     box-sizing: border-box;
-    transition: opacity 0.5s;
+    background: transparent;
     opacity: 0;
     pointer-events: none;
+    transition: opacity 0.5s ease;
 }
 
 .screen.active {
@@ -60,11 +64,15 @@ button {
     background: #00ff88;
     color: #003322;
     cursor: pointer;
-    transition: 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #00ff88;
+}
 
+/* Botón pollito con bocadillo */
 #pollitoBtn {
     position: relative;
     background: #fff200;
@@ -75,6 +83,7 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
     height: 80px;
     cursor: pointer;
 }
+
 #pollitoBtn::after {
     content: "Púlsame aquí guarrillo jeje";
     position: absolute;
@@ -89,8 +98,12 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
     opacity: 0;
     transition: opacity 0.3s;
 }
-#pollitoBtn:hover::after { opacity: 1; }
 
+#pollitoBtn:hover::after {
+    opacity: 1;
+}
+
+/* Foto final */
 #fotoSorpresa {
     max-width: 90%;
     max-height: 60vh;
@@ -99,14 +112,20 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
     opacity: 0;
     transition: opacity 1s ease, transform 1s ease;
 }
-#fotoSorpresa.show { opacity: 1; transform: scale(1.05); }
 
+#fotoSorpresa.show {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* Animaciones */
 .heart, .pollito {
     position: absolute;
     bottom: -20px;
     font-size: 20px;
     animation: floatUp 6s linear infinite;
 }
+
 @keyframes floatUp {
     0% { transform: translateY(0); opacity: 1; }
     100% { transform: translateY(-120vh); opacity: 0; }
@@ -117,6 +136,7 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
     font-size: 20px;
     animation: pollitoUp 4s linear infinite;
 }
+
 @keyframes pollitoUp {
     0% { transform: translateY(0); opacity: 1; }
     100% { transform: translateY(-120vh); opacity: 0; }
@@ -155,57 +175,58 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
 </div>
 
 <script>
-// Animaciones
+// Variables de animaciones
 let intervalId;
 
+// Función para crear corazones
 function crearCorazones(color) {
     return setInterval(() => {
         const c = document.createElement('div');
         c.className = 'heart';
         c.innerHTML = color;
-        c.style.left = Math.random()*100+'vw';
-        c.style.fontSize = (Math.random()*20+15)+'px';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.fontSize = (Math.random() * 20 + 15) + 'px';
         document.body.appendChild(c);
-        setTimeout(()=>c.remove(),6000);
+        setTimeout(() => c.remove(), 6000);
     }, 400);
 }
 
+// Función para pollitos
 function crearPollitos() {
-    setInterval(()=>{
+    setInterval(() => {
         const p = document.createElement('div');
-        p.className='pollito';
-        p.innerHTML='🐥';
-        p.style.left=Math.random()*100+'vw';
-        p.style.fontSize=(Math.random()*20+15)+'px';
+        p.className = 'pollito';
+        p.innerHTML = '🐥';
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.fontSize = (Math.random() * 20 + 15) + 'px';
         document.body.appendChild(p);
-        setTimeout(()=>p.remove(),4000);
-    },500);
+        setTimeout(() => p.remove(), 4000);
+    }, 500);
 }
 
 // Cambiar pantalla
-function showScreen(current,next){
+function showScreen(current, next) {
     document.getElementById(current).classList.remove('active');
     document.getElementById(next).classList.add('active');
 
     if(intervalId) clearInterval(intervalId);
 
-    if(next==='screen1') intervalId=crearCorazones('🤍');
-    if(next==='screen2'||next==='screen3') intervalId=crearCorazones('💚');
-    if(next==='screen4'){
-        const foto=document.getElementById('fotoSorpresa');
-        setTimeout(()=>foto.classList.add('show'),300);
+    if(next === 'screen1') intervalId = crearCorazones('🤍');
+    if(next === 'screen2' || next === 'screen3') intervalId = crearCorazones('💚');
+    if(next === 'screen4') {
+        const foto = document.getElementById('fotoSorpresa');
+        setTimeout(() => foto.classList.add('show'), 300);
         crearPollitos();
     }
 }
 
 // Botones
-document.getElementById('btn1').addEventListener('click', ()=>showScreen('screen1','screen2'));
-document.getElementById('btn2').addEventListener('click', ()=>showScreen('screen2','screen3'));
-document.getElementById('pollitoBtn').addEventListener('click', ()=>showScreen('screen3','screen4'));
+document.getElementById('btn1').addEventListener('click', () => showScreen('screen1','screen2'));
+document.getElementById('btn2').addEventListener('click', () => showScreen('screen2','screen3'));
+document.getElementById('pollitoBtn').addEventListener('click', () => showScreen('screen3','screen4'));
 
-// Inicia pantalla 1
+// Iniciar pantalla 1
 intervalId = crearCorazones('🤍');
 </script>
-
 </body>
 </html>
