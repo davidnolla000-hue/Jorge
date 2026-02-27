@@ -46,7 +46,7 @@ html, body {
 }
 
 h1 { font-size: 2.5em; margin-bottom: 20px; }
-h2 { font-size: 2em; margin-bottom: 10px; }
+h2 { font-size: 2em; margin-bottom: 10px; opacity: 0; transition: opacity 1s ease; }
 p { font-size: 1.2em; line-height: 1.6em; margin: 5px 0; opacity: 0; }
 
 button {
@@ -106,7 +106,6 @@ button {
     transform: scale(1.05);
 }
 
-/* Animaciones de corazones y pollitos */
 .heart, .pollito {
     position: absolute;
     bottom: -20px;
@@ -165,13 +164,11 @@ button {
 </div>
 
 <script>
-// Variables de intervalos
 let intervalId;
 
-// Función para animar corazones
 function crearCorazones(color){
     return setInterval(()=>{
-        const c = document.createElement('div');
+        const c=document.createElement('div');
         c.className='heart';
         c.innerHTML=color;
         c.style.left=Math.random()*100+'vw';
@@ -181,10 +178,9 @@ function crearCorazones(color){
     },400);
 }
 
-// Función pollitos
 function crearPollitos(){
     setInterval(()=>{
-        const p = document.createElement('div');
+        const p=document.createElement('div');
         p.className='pollito';
         p.innerHTML='🐥';
         p.style.left=Math.random()*100+'vw';
@@ -194,19 +190,18 @@ function crearPollitos(){
     },500);
 }
 
-// Función escribir texto letra por letra
 function escribirTexto(screenId){
     const pList=document.querySelectorAll('#'+screenId+' p[data-text]');
     pList.forEach((p, idx)=>{
         const texto=p.getAttribute('data-text');
         p.textContent='';
+        p.style.opacity=1; // asegura que se vea
         for(let i=0;i<texto.length;i++){
             setTimeout(()=>{ p.textContent += texto[i]; }, i*40 + idx*500);
         }
     });
 }
 
-// Cambiar pantalla
 function showScreen(current,next){
     document.getElementById(current).classList.remove('active');
     document.getElementById(next).classList.add('active');
@@ -214,12 +209,14 @@ function showScreen(current,next){
     if(intervalId) clearInterval(intervalId);
 
     if(next==='screen1') intervalId = crearCorazones('🤍');
-    if(next==='screen2' || next==='screen3') intervalId = crearCorazones('💚');
-    if(next==='screen2' || next==='screen3') escribirTexto(next);
-    if(next==='screen4'){
+    if(next==='screen2') { intervalId = crearCorazones('💚'); escribirTexto(next); }
+    if(next==='screen3') { intervalId = crearCorazones('💚'); escribirTexto(next); }
+    if(next==='screen4') { 
         const foto=document.getElementById('fotoSorpresa');
         setTimeout(()=>foto.classList.add('show'),300);
         crearPollitos();
+        document.querySelector('#screen4 h2').style.opacity = 1;
+        document.querySelectorAll('#screen4 p').forEach(p=>p.style.opacity=1);
     }
 }
 
@@ -228,9 +225,8 @@ document.getElementById('btn1').addEventListener('click', ()=>showScreen('screen
 document.getElementById('btn2').addEventListener('click', ()=>showScreen('screen2','screen3'));
 document.getElementById('pollitoBtn').addEventListener('click', ()=>showScreen('screen3','screen4'));
 
-// Inicia pantalla 1
+// iniciar pantalla 1
 intervalId = crearCorazones('🤍');
 </script>
-
 </body>
 </html>
