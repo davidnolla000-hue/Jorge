@@ -32,14 +32,14 @@ body {
 }
 
 .container {
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     position: relative;
 }
 
 .screen {
     display: none;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     flex-direction: column;
     justify-content: center;
@@ -178,7 +178,7 @@ button:hover { transform: scale(1.1); box-shadow: 0 0 20px #00ff88; }
 </div>
 
 <script>
-// Función corazones
+// Animaciones por pantalla
 function crearCorazones(color) {
     return setInterval(() => {
         const heart = document.createElement('div');
@@ -191,7 +191,6 @@ function crearCorazones(color) {
     }, 400);
 }
 
-// Pollitos pantalla final
 function crearPollitos() {
     setInterval(() => {
         const pollito = document.createElement('div');
@@ -207,15 +206,13 @@ function crearPollitos() {
 // Variables para intervalos
 let intervalId;
 
-// Cambiar de pantalla
+// Cambiar pantalla
 function showScreen(current, next) {
     document.getElementById(current).classList.remove('active');
     document.getElementById(next).classList.add('active');
 
-    // Limpiar intervalos previos
     if(intervalId) clearInterval(intervalId);
 
-    // Iniciar animaciones según pantalla
     if(next === 'screen1') intervalId = crearCorazones('🤍');
     if(next === 'screen2' || next === 'screen3') intervalId = crearCorazones('💚');
     if(next === 'screen4') {
@@ -230,7 +227,7 @@ document.getElementById('btn1').addEventListener('click', () => showScreen('scre
 document.getElementById('btn2').addEventListener('click', () => showScreen('screen2','screen3'));
 document.getElementById('pollitoBtn').addEventListener('click', () => showScreen('screen3','screen4'));
 
-// Iniciar pantalla 1 corazones blancos
+// Iniciar pantalla 1
 intervalId = crearCorazones('🤍');
 </script>
 
