@@ -6,141 +6,119 @@
 <title>Para Jorge 💚</title>
 <style>
 html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    font-family: 'Arial', sans-serif;
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    font-family: Arial, sans-serif;
     overflow: hidden;
-    background: linear-gradient(-45deg, #0f2027, #203a43, #2c7744, #11998e);
-    background-size: 400% 400%;
+    background: linear-gradient(-45deg,#0f2027,#203a43,#2c7744,#11998e);
+    background-size:400% 400%;
     animation: gradient 15s ease infinite;
     color: white;
     text-align: center;
 }
 
 @keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
 }
 
 .screen {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-    opacity: 0;
-    pointer-events: none;
+    position: fixed; top:0; left:0;
+    width: 100vw; height:100vh;
+    display:flex; flex-direction:column;
+    justify-content:center; align-items:center;
+    padding:20px; box-sizing:border-box;
+    opacity:0; pointer-events:none;
     transition: opacity 0.5s ease;
 }
 
-.screen.active {
-    opacity: 1;
-    pointer-events: all;
-}
+.screen.active { opacity:1; pointer-events:all; }
 
-h1 { font-size: 2.5em; margin-bottom: 20px; }
-h2 { font-size: 2em; margin-bottom: 10px; opacity: 0; transition: opacity 1s ease; }
-p { font-size: 1.2em; line-height: 1.6em; margin: 5px 0; opacity: 0; }
+h1 { font-size:2.5em; margin-bottom:20px; }
+h2 { font-size:2em; margin-bottom:10px; opacity:0; transition: opacity 1s ease; }
+p { font-size:1.2em; line-height:1.6em; margin:5px 0; opacity:0; }
 
 button {
-    margin-top: 30px;
-    padding: 15px 30px;
-    font-size: 1em;
-    border: none;
-    border-radius: 30px;
-    background: #00ff88;
-    color: #003322;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
+    margin-top:30px; padding:15px 30px;
+    font-size:1em; border:none; border-radius:30px;
+    background:#00ff88; color:#003322;
+    cursor:pointer; transition: transform 0.3s, box-shadow 0.3s;
     animation: pulse 2s infinite;
 }
 
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
+@keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
 
+/* Pollito botón */
 #pollitoBtn {
-    position: absolute;
-    bottom: 40%;
-    font-size: 2em;
-    cursor: pointer;
+    position:absolute; bottom:40%;
+    font-size:2em; cursor:pointer;
+    z-index:5;
 }
 
+/* Bocadillo fijo */
+#pollitoText {
+    position:absolute;
+    bottom:50%; left:50%;
+    transform:translateX(-50%);
+    font-size:1.2em;
+    background: #003322;
+    color:#fff200;
+    padding:8px 15px;
+    border-radius:10px;
+    white-space:nowrap;
+}
+
+/* Foto sorpresa */
 #fotoSorpresa {
-    max-width: 90%;
-    max-height: 60vh;
-    border-radius: 20px;
-    box-shadow: 0 0 25px #00ff88;
-    opacity: 0;
+    max-width: 90%; max-height: 60vh;
+    border-radius:20px;
+    box-shadow:0 0 25px #00ff88;
+    opacity:0;
     transition: opacity 1s ease, transform 1s ease;
 }
+#fotoSorpresa.show { opacity:1; transform:scale(1.05); }
 
-#fotoSorpresa.show {
-    opacity: 1;
-    transform: scale(1.05);
-}
-
+/* Corazones y pollitos animados */
 .heart, .pollito {
-    position: absolute;
-    bottom: -20px;
-    font-size: 20px;
+    position:absolute; bottom:-20px; font-size:20px;
 }
-
-.heart {
-    animation: floatRotate 6s linear infinite;
-}
-
+.heart { animation: floatRotate 6s linear infinite; }
 @keyframes floatRotate {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    50% { transform: translateY(-60vh) rotate(180deg); opacity: 0.7; }
-    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+    0%{transform:translateY(0) rotate(0deg); opacity:1;}
+    50%{transform:translateY(-60vh) rotate(180deg); opacity:0.7;}
+    100%{transform:translateY(-120vh) rotate(360deg); opacity:0;}
 }
-
-.pollito {
-    animation: pollitoBounce 4s ease-in-out infinite;
-}
-
+.pollito { animation: pollitoBounce 4s ease-in-out infinite; }
 @keyframes pollitoBounce {
-    0% { transform: translateY(0); opacity: 1; }
-    50% { transform: translateY(-70vh); opacity: 1; }
-    100% { transform: translateY(-120vh); opacity: 0; }
+    0%{transform:translateY(0); opacity:1;}
+    50%{transform:translateY(-70vh); opacity:1;}
+    100%{transform:translateY(-120vh); opacity:0;}
 }
 
 /* Brillos pantalla 4 */
 #screen4::before {
-    content: '';
-    position: absolute;
-    width: 200%;
-    height: 200%;
+    content:'';
+    position:absolute; width:200%; height:200%;
     background: radial-gradient(circle, rgba(255,255,255,0.2) 1%, transparent 1%) repeat;
-    background-size: 50px 50px;
-    animation: sparkle 10s linear infinite;
-    pointer-events: none;
+    background-size:50px 50px;
+    animation:sparkle 10s linear infinite;
+    pointer-events:none;
 }
+@keyframes sparkle { 0%{transform:translate(0,0);} 100%{transform:translate(-50px,-50px);} }
 
-@keyframes sparkle {
-    0% { transform: translate(0,0); }
-    100% { transform: translate(-50px,-50px); }
-}
 </style>
 </head>
 <body>
 
+<!-- Pantalla 1 -->
 <div id="screen1" class="screen active">
     <h1>Jorge 💚</h1>
     <p style="opacity:1;">Si estás leyendo esto, alguien quiere recordarte algo muy importante...</p>
     <button id="btn1">Pulsa aquí</button>
 </div>
 
+<!-- Pantalla 2 -->
 <div id="screen2" class="screen">
     <p data-text="No necesitas a nadie para ser suficiente."></p>
     <p data-text="No necesitas encajar para valer."></p>
@@ -149,13 +127,16 @@ button {
     <button id="btn2">Siguiente</button>
 </div>
 
+<!-- Pantalla 3 -->
 <div id="screen3" class="screen">
     <p data-text="Confía en ti y en el proceso."></p>
     <p data-text="Disfruta cada paso, todo va a ir bien."></p>
     <p data-text="Recuerda: la vida es un camino que merece ser disfrutado 💚"></p>
+    <div id="pollitoText">Atrápame si puedes guarrillo 🐥</div>
     <button id="pollitoBtn">🐥</button>
 </div>
 
+<!-- Pantalla 4 -->
 <div id="screen4" class="screen">
     <h2>Te queremos 💚</h2>
     <p>Tus pajeros:</p>
@@ -164,16 +145,14 @@ button {
 </div>
 
 <script>
-let intervalId;
-let pollitoDir = 1;
-let pollitoX = 10;
-let pollitoAnim;
+let intervalId, pollitoAnim;
+let pollitoX=10, pollitoDir=1;
 
+// Crear corazones
 function crearCorazones(color){
     return setInterval(()=>{
         const c=document.createElement('div');
-        c.className='heart';
-        c.innerHTML=color;
+        c.className='heart'; c.innerHTML=color;
         c.style.left=Math.random()*100+'vw';
         c.style.fontSize=(Math.random()*20+15)+'px';
         document.body.appendChild(c);
@@ -181,11 +160,11 @@ function crearCorazones(color){
     },400);
 }
 
+// Crear pollitos para pantalla final
 function crearPollitos(){
     setInterval(()=>{
         const p=document.createElement('div');
-        p.className='pollito';
-        p.innerHTML='🐥';
+        p.className='pollito'; p.innerHTML='🐥';
         p.style.left=Math.random()*100+'vw';
         p.style.fontSize=(Math.random()*20+15)+'px';
         document.body.appendChild(p);
@@ -193,49 +172,52 @@ function crearPollitos(){
     },500);
 }
 
+// Escribir texto letra por letra
 function escribirTexto(screenId){
     const pList=document.querySelectorAll('#'+screenId+' p[data-text]');
     pList.forEach((p, idx)=>{
         const texto=p.getAttribute('data-text');
-        p.textContent='';
-        p.style.opacity=1;
+        p.textContent=''; p.style.opacity=1;
         for(let i=0;i<texto.length;i++){
             setTimeout(()=>{ p.textContent += texto[i]; }, i*40 + idx*500);
         }
     });
 }
 
+// Mover pollito botón rápido
 function moverPollito(){
     const btn = document.getElementById('pollitoBtn');
-    pollitoX += pollitoDir*2;
+    pollitoX += pollitoDir*5; // mucho más rápido
     if(pollitoX>90) pollitoDir=-1;
-    if(pollitoX<10) pollitoDir=1;
-    btn.style.left=pollitoX+'%';
+    if(pollitoX<0) pollitoDir=1;
+    btn.style.left = pollitoX+'%';
 }
 
+// Cambiar pantalla
 function showScreen(current,next){
     document.getElementById(current).classList.remove('active');
     document.getElementById(next).classList.add('active');
-
     if(intervalId) clearInterval(intervalId);
     if(pollitoAnim) clearInterval(pollitoAnim);
 
     if(next==='screen1') intervalId = crearCorazones('🤍');
     if(next==='screen2') { intervalId = crearCorazones('💚'); escribirTexto(next); }
-    if(next==='screen3') { intervalId = crearCorazones('💚'); escribirTexto(next); pollitoAnim = setInterval(moverPollito,30); }
+    if(next==='screen3') { intervalId = crearCorazones('💚'); escribirTexto(next); pollitoAnim = setInterval(moverPollito,20); }
     if(next==='screen4'){
         const foto=document.getElementById('fotoSorpresa');
         setTimeout(()=>foto.classList.add('show'),300);
         crearPollitos();
-        document.querySelector('#screen4 h2').style.opacity = 1;
+        document.querySelector('#screen4 h2').style.opacity=1;
         document.querySelectorAll('#screen4 p').forEach(p=>p.style.opacity=1);
     }
 }
 
+// Botones
 document.getElementById('btn1').addEventListener('click', ()=>showScreen('screen1','screen2'));
 document.getElementById('btn2').addEventListener('click', ()=>showScreen('screen2','screen3'));
 document.getElementById('pollitoBtn').addEventListener('click', ()=>showScreen('screen3','screen4'));
 
+// iniciar pantalla 1
 intervalId = crearCorazones('🤍');
 </script>
 
