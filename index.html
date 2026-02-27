@@ -51,7 +51,7 @@ button {
 
 /* Pollito botón */
 #pollitoBtn {
-    position:absolute; bottom:40%;
+    position:absolute; bottom:15%; /* más abajo */
     font-size:2em; cursor:pointer;
     z-index:5;
 }
@@ -59,7 +59,8 @@ button {
 /* Bocadillo fijo */
 #pollitoText {
     position:absolute;
-    bottom:50%; left:50%;
+    bottom:20%; /* más abajo que el texto principal */
+    left:50%;
     transform:translateX(-50%);
     font-size:1.2em;
     background: #003322;
@@ -106,7 +107,6 @@ button {
     pointer-events:none;
 }
 @keyframes sparkle { 0%{transform:translate(0,0);} 100%{transform:translate(-50px,-50px);} }
-
 </style>
 </head>
 <body>
@@ -187,7 +187,7 @@ function escribirTexto(screenId){
 // Mover pollito botón rápido
 function moverPollito(){
     const btn = document.getElementById('pollitoBtn');
-    pollitoX += pollitoDir*5; // mucho más rápido
+    pollitoX += pollitoDir*5; // muy rápido
     if(pollitoX>90) pollitoDir=-1;
     if(pollitoX<0) pollitoDir=1;
     btn.style.left = pollitoX+'%';
