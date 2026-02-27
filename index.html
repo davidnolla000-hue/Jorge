@@ -35,10 +35,7 @@ body {
 }
 
 @keyframes fadeIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 h1 {
@@ -68,9 +65,7 @@ button:hover {
     box-shadow: 0 0 20px #00ff88;
 }
 
-.hidden {
-    display: none;
-}
+.hidden { display: none; }
 
 .heart {
     position: absolute;
@@ -80,54 +75,82 @@ button:hover {
 }
 
 @keyframes floatUp {
-    0% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(-120vh);
-        opacity: 0;
-    }
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-120vh); opacity: 0; }
+}
+
+/* Estilo para botón pollito */
+#pollitoBtn {
+    background: #fff200;
+    color: #003322;
+    font-size: 2em;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    padding: 0;
+    line-height: 70px;
+    margin-top: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#pollitoBtn:hover {
+    transform: scale(1.2) rotate(10deg);
+    box-shadow: 0 0 20px #fff200;
+}
+
+#fotoSorpresa {
+    margin-top: 20px;
+    max-width: 80%;
+    border-radius: 20px;
+    box-shadow: 0 0 20px #00ff88;
+    display: none;
+    opacity: 0;
+    transition: opacity 1s ease;
 }
 </style>
 </head>
 
 <body>
-
 <div class="container">
     <h1>Jorge 💚</h1>
-    <p>
-        Si estás leyendo esto, es porque alguien quiere recordarte algo muy importante...
-    </p>
-    <button onclick="mostrarMensaje()">Pulsa aquí</button>
+    <p>Si estás leyendo esto, es porque alguien quiere recordarte algo muy importante...</p>
+    <button id="startBtn" onclick="mostrarMensaje()">Pulsa aquí</button>
 
     <div id="mensajeFinal" class="hidden">
-        <p>
-        No necesitas a nadie para ser suficiente.  
+        <p>No necesitas a nadie para ser suficiente.  
         No necesitas encajar para valer.  
-        No necesitas demostrar nada para merecer amor.
-        </p>
+        No necesitas demostrar nada para merecer amor.</p>
 
-        <p>
-        Eres perfecto tal y como eres.  
+        <p>Eres perfecto tal y como eres.  
         Con tus virtudes.  
         Con tus defectos.  
-        Con tu forma única de ver el mundo.
-        </p>
+        Con tu forma única de ver el mundo.</p>
 
-        <p>
-        Nunca olvides que el valor que tienes  
+        <p>Nunca olvides que el valor que tienes  
         no depende de quién se quede  
-        sino de quién eres.
-        </p>
+        sino de quién eres.</p>
 
         <h2>Y tú, Jorge… eres increíble 💚</h2>
+
+        <button id="pollitoBtn" onclick="mostrarFoto()">🐥</button>
+        <img id="fotoSorpresa" src="fotoSorpresa.jpg" alt="Foto sorpresa">
     </div>
 </div>
 
 <script>
 function mostrarMensaje() {
-    document.getElementById("mensajeFinal").classList.remove("hidden");
+    document.getElementById("startBtn").style.display = "none"; // desaparece el primer botón
+    const mensaje = document.getElementById("mensajeFinal");
+    mensaje.classList.remove("hidden");
+
+    // animar aparición de cada párrafo
+    const parrafos = mensaje.querySelectorAll('p, h2, button');
+    parrafos.forEach((p, i) => {
+        p.style.opacity = 0;
+        setTimeout(() => { p.style.transition = 'opacity 1s'; p.style.opacity = 1; }, i * 500);
+    });
+
     crearCorazones();
 }
 
@@ -140,12 +163,15 @@ function crearCorazones() {
         heart.style.fontSize = (Math.random() * 20 + 15) + "px";
         document.body.appendChild(heart);
 
-        setTimeout(() => {
-            heart.remove();
-        }, 6000);
+        setTimeout(() => { heart.remove(); }, 6000);
     }, 400);
 }
-</script>
 
+function mostrarFoto() {
+    const foto = document.getElementById("fotoSorpresa");
+    foto.style.display = "block";
+    setTimeout(() => { foto.style.opacity = 1; }, 100);
+}
+</script>
 </body>
 </html>
